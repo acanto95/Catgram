@@ -1,0 +1,60 @@
+<div class="card">
+  <div class="card-header ">
+
+    <div class="row">
+      <div class="col-sm-4">
+          <h3 [hidden]="onFavs" class="text-left">images</h3>
+          <h3 [hidden]="!onFavs" class="text-left">My favourites</h3>
+      </div>
+
+      <div class="col-sm-4">
+          <div class="input-group m-0">
+              <div class="input-group-prepend">
+                  <span class="input-group-text">Search</span>
+              </div>
+              <input type="text" class="form-control" (keyup)='onFilterKeyUp($event)' placeholder="Search by breed info">
+          </div>
+      </div>
+          
+      
+      <div class="col-sm-4">
+          <button type="button" class="btn btn-primary" (click)="searchCats('all')" style="margin-left:1px"><i class="fas fa-th"></i></button> &nbsp;
+          <button type="button" class="btn btn-primary" (click)="showFavs()" style="margin-left:200px"><i class="fas fa-heart"></i></button>
+      </div>
+    </div>
+  </div>
+  <div class="card-body">
+    <div class="row">
+      <div class="col-sm-4" *ngFor="let cat of cats; let i=index">
+        <div [hidden]="i>20 && !secondRow">
+          <a (click)="openModal(modalCat, cat.url, cat.id, cat.fav, cat.fav_id)"  class = "thumbnail">
+        <img [src]="cat.url" class="imgclass">
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-sm-12 align-self-center">
+          <button [hidden]="onFavs || secondRow" type="button" class="btn btn-secondary btn-lg" (click)="showSecondRow()"> show more</button>
+      </div>
+    
+  </div>
+  </div>
+</div>
+
+
+<ng-template #modalCat let-c="close" let-d="dismiss">
+    <div class="modal-header">
+      <h4 class="modal-title">Cat id:{{ selectedCat.id }}</h4>
+      <button type="button" class="close" aria-label="Close" (click)="onClose(d)">
+      </button>
+    </div>
+    <div class="modal-body">
+      <a (dblclick)="doubleClick()">
+      <img [src]="selectedCat.url" class="imgclass">
+    </a>
+    <i [hidden]="selectedCat.fav" class="far fa-heart fa-lg mt-4"></i>
+    <i [hidden]="!selectedCat.fav"class="fas fa-heart fa-lg mt-4"></i>
+    </div>
+  </ng-template>
